@@ -72,15 +72,30 @@ RECALL_NUM = 20
 RULE = [2, 3, 1]
 ```
 
-## Contribution
-1. 实现了一个比较通用的数据类和召回类，存储方式可以选择稀疏矩阵或稠密矩阵，固定窗口碰撞率、滑动窗口碰撞率都可以直接调用类方法快捷计算。
-2. 实现了DPP滑窗打散算法，对比猴子随机打散baseline，提高了打散成功率。
+## Success Rate
+
+| Algorithm | author(1000) (%) | category(30) (%) | music(100) (%) |
+|-----------|------------------|------------------|----------------|
+| Monkey    | 0.9997           | 0.9710           | 0.7569         |
+| DPP-SW    | 1.0000           | 1.0000           | 0.99998        |
 
 ![Monkey vs. DPP Slide Window Algorithm](./pic/Monkey%20vs.%20DPP%20Slide%20Window%20Algorithm.png)
 
-3. 实现了可在GPU上并行计算的DPP滑窗算法。CPU代际升级也很难提升1倍的速度，而GPU实现对比CPU实现可提速 58.8 ~ 112.0 倍。
+## Time Consumed
+
+| device        | feat_dim | recall_num | test_num | total_time(s) | avg_time(ms) |
+|---------------|----------|------------|----------|---------------|--------------|
+| CPU i5-8250U  | 1130     | 20         | 10240    | 338.8206      | 33.03        |
+| CPU i7-11700  | 1130     | 20         | 10240    | 179.2346      | 17.50        |
+| GPU Tesla P40 | 1130     | 20         | 10240    | 2.9980        | 0.29         |
 
 ![CPU vs. GPU](./pic/CPU%20vs.%20GPU.png)
+
+## Contribution
+1. 实现了一个比较通用的数据类和召回类，存储方式可以选择稀疏矩阵或稠密矩阵，固定窗口碰撞率、滑动窗口碰撞率都可以直接调用类方法快捷计算。
+2. 实现了DPP滑窗打散算法，对比猴子随机打散baseline，提高了打散成功率。
+3. 实现了可在GPU上并行计算的DPP滑窗算法。CPU代际升级也很难提升1倍的速度，而GPU实现对比CPU实现可提速 58.8 ~ 112.0 倍。
+
 
 ## Others
 1. 评估（计算规则碰撞率）比较耗时，实现了多进程评估，但目前multiprocessing和torch.multiprocessing开多进程还有一些问题，如，稀疏矩阵暂不支持被multiprocessing序列化，多进程cuda tensor共享问题等等，所以，虽然实现了多进程并发，但评估时并未使用。
