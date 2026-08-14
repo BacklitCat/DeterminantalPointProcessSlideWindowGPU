@@ -1,3 +1,5 @@
+
+
 # Determinantal Point Process Slide Window GPU
 行列式点过程(DPP)算法滑窗版本的GPU实现
 
@@ -61,7 +63,7 @@ time_gen: [1.9000129699707031], time_eval: [132.89892864227295], time_dpp: [2.99
    2. \_\_call__ 调用算法
 
 ### timer.py
-1. time_logger 含参的双层计时装饰器
+1. time_loger 含参的双层计时装饰器
 
 ## Experimental Parameter
 ```python
